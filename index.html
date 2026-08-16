@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" style="overflow-x: hidden;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,16 +24,45 @@
             animation: blink 0.7s infinite;
         }
         
-        /* Down-to-Up Fade Scroll Animations */
-        .reveal-up {
+        /* Off-Screen Directional Entrance Animations */
+        .reveal-anim {
             opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+            transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1), transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform;
         }
-        .reveal-up.revealed {
+        .reveal-anim.revealed {
             opacity: 1;
-            transform: translateY(0);
+            transform: translate(0, 0);
+        }
+
+        /* Directional starting points - always fully off-screen from the browser edge */
+        .reveal-top {
+            transform: translateY(-140vh);
+        }
+        .reveal-bottom {
+            transform: translateY(140vh);
+        }
+        .reveal-left {
+            transform: translateX(-140vw);
+        }
+        .reveal-right {
+            transform: translateX(140vw);
+        }
+
+        /* Certificate Section - slowed down, gentle easing for a relaxed feel */
+        .reveal-gentle {
+            transition-duration: 2.4s, 2.4s;
+            transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94), cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Transform-only variant (no opacity control) - for elements that already manage
+           their own opacity/hover state via Tailwind utilities (e.g. project thumbnails) */
+        .reveal-anim-slide {
+            transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        .reveal-anim-slide.revealed {
+            transform: translate(0, 0);
         }
 
         /* Infinite Slider Keyframes & Styles */
@@ -108,7 +137,7 @@
         }
     </style>
 </head>
-<body id="pageBody" class="bg-[#FDFBF7] text-[#3D2817] m-0 p-0 font-sans transition-colors duration-400 light-mode">
+<body id="pageBody" class="bg-[#FDFBF7] text-[#3D2817] m-0 p-0 font-sans transition-colors duration-400 light-mode" style="overflow-x: hidden;">
 
     <!-- Fixed Top Navigation Bar -->
     <header class="fixed top-4 left-6 right-6 z-50">
@@ -196,13 +225,13 @@
         <div id="homeBottomFade" class="absolute bottom-0 left-0 w-full h-28 bg-gradient-to-t from-[#FDFBF7] to-transparent pointer-events-none z-25 transition-colors duration-400"></div>
         <div class="absolute inset-0 z-30 flex flex-col justify-center items-center px-4 md:px-12 pointer-events-none">
             <div class="text-center drop-shadow-lg w-full max-w-6xl px-6">
-                <div id="typingTextWrapper" class="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-widest text-[#3D2817] mb-6 uppercase h-12 flex items-center justify-center reveal-up">
+                <div id="typingTextWrapper" class="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-widest text-[#3D2817] mb-6 uppercase h-12 flex items-center justify-center reveal-anim reveal-top">
                     <span id="typing-text"></span><span class="typing-cursor">|</span>
                 </div>
-                <p id="homeDescription" class="text-[#6B4F33] text-lg md:text-xl lg:text-2xl leading-relaxed mb-10 font-semibold text-center reveal-up" style="transition-delay: 150ms;">
+                <p id="homeDescription" class="text-[#6B4F33] text-lg md:text-xl lg:text-2xl leading-relaxed mb-10 font-semibold text-center reveal-anim reveal-left" style="transition-delay: 150ms;">
                     I build clean, modern, and fully functional websites from scratch to bring your brand and vision to life. Along with web development, I perform careful system manual testing to check every feature, catch bugs, and ensure everything runs smoothly. Let's work directly together to turn your ideas into a reliable digital product.
                 </p>
-                <div class="flex flex-row justify-center space-x-6 pointer-events-auto reveal-up" style="transition-delay: 300ms;">
+                <div class="flex flex-row justify-center space-x-6 pointer-events-auto reveal-anim reveal-bottom" style="transition-delay: 300ms;">
                     <a id="viewProjectsBtn" href="#projects" class="px-8 py-3.5 rounded-full bg-[#EBF3F9] hover:bg-[#E4EDF4] text-[#3D2817] border border-[#6B4F33] font-light transition duration-200 shadow-lg text-lg inline-block">
                         RESUME
                     </a>
@@ -215,18 +244,18 @@
     <section id="about" class="relative w-full min-h-screen bg-[#FDFBF7] border-t border-[#E4EDF4] flex flex-col justify-between pt-28 overflow-hidden transition-colors duration-400">
         <div class="max-w-6xl mx-auto w-full px-8 md:px-20 py-16 flex-1 flex items-center justify-center">
             <div class="hidden md:flex relative items-center justify-center gap-16 w-full">
-                <div id="aboutImgBoxDesktop" class="w-[420px] h-[420px] rounded-3xl overflow-hidden bg-[#EBF3F9] flex-shrink-0 flex items-center justify-center border border-[#6B4F33] shadow-2xl z-0 reveal-up transition-colors duration-400">
+                <div id="aboutImgBoxDesktop" class="w-[420px] h-[420px] rounded-3xl overflow-hidden bg-[#EBF3F9] flex-shrink-0 flex items-center justify-center border border-[#6B4F33] shadow-2xl z-0 reveal-anim reveal-left transition-colors duration-400">
                     <img id="profileImgDesktop" src="images/light mode profile.png" alt="Profile Picture" class="w-full h-full object-cover" draggable="false"/>
                 </div>
-                <div class="flex-1 transition-all duration-300 reveal-up" style="transition-delay: 200ms;">
-                    <div class="mb-5">
+                <div class="flex-1 transition-all duration-300">
+                    <div class="mb-5 reveal-anim reveal-right" style="transition-delay: 200ms;">
                         <h2 id="aboutTitle" class="text-3xl font-bold text-[#3D2817] mb-2">Ralph Jayco V. Urrutia</h2>
                         <p id="aboutSubtitle" class="text-base font-medium text-[#D97706]">Information Technology Graduate & Entry-level IT Professional</p>
                     </div>
-                    <p id="aboutText" class="text-[#6B4F33] text-base md:text-lg leading-relaxed mb-8 font-light">
+                    <p id="aboutText" class="text-[#6B4F33] text-base md:text-lg leading-relaxed mb-8 font-light reveal-anim reveal-right" style="transition-delay: 300ms;">
                         As an Information Technology graduate, I bridge the gap between creative design and robust technical execution. I specialize in system manual testing and building responsive web applications using modern development tools. Every project is backed by structured test plans and meticulous attention to detail to ensure seamless performance and reliability.
                     </p>
-                    <div class="flex flex-wrap items-center gap-4">
+                    <div class="flex flex-wrap items-center gap-4 reveal-anim reveal-bottom" style="transition-delay: 400ms;">
                         <a href="https://www.linkedin.com/in/ralph-jayco-urrutia-855170259/" target="_blank" rel="noopener noreferrer" title="Ralph Jayco Urrutia" class="social-icon-btn w-12 h-12 bg-[#F7F5F0] hover:bg-[#EBF3F9] border border-[#6B4F33] rounded-full flex items-center justify-center transition-transform hover:scale-105" aria-label="LinkedIn">
                             <i class="fa-brands fa-linkedin-in text-[#3D2817] text-lg"></i>
                         </a>
@@ -244,17 +273,19 @@
             </div>
 
             <!-- Mobile Layout -->
-            <div class="md:hidden max-w-sm mx-auto text-center bg-transparent reveal-up w-full">
-                <div id="aboutImgBoxMobile" class="w-full aspect-square bg-[#EBF3F9] rounded-3xl overflow-hidden mb-6 flex items-center justify-center border border-[#6B4F33] shadow-2xl transition-colors duration-400">
+            <div class="md:hidden max-w-sm mx-auto text-center bg-transparent w-full">
+                <div id="aboutImgBoxMobile" class="w-full aspect-square bg-[#EBF3F9] rounded-3xl overflow-hidden mb-6 flex items-center justify-center border border-[#6B4F33] shadow-2xl transition-colors duration-400 reveal-anim reveal-left">
                     <img id="profileImgMobile" src="images/light mode profile.png" alt="Profile Picture" class="w-full h-full object-cover" draggable="false"/>
                 </div>
                 <div class="px-2">
-                    <h2 id="aboutTitleMob" class="text-2xl font-bold text-[#3D2817] mb-2">Ralph Jayco V. Urrutia</h2>
-                    <p id="aboutSubtitleMob" class="text-sm font-medium text-[#D97706] mb-4">Information Technology Graduate & Entry-level IT Professional</p>
-                    <p id="aboutTextMob" class="text-[#6B4F33] text-sm leading-relaxed mb-6 font-light">
+                    <div class="reveal-anim reveal-right" style="transition-delay: 150ms;">
+                        <h2 id="aboutTitleMob" class="text-2xl font-bold text-[#3D2817] mb-2">Ralph Jayco V. Urrutia</h2>
+                        <p id="aboutSubtitleMob" class="text-sm font-medium text-[#D97706] mb-4">Information Technology Graduate & Entry-level IT Professional</p>
+                    </div>
+                    <p id="aboutTextMob" class="text-[#6B4F33] text-sm leading-relaxed mb-6 font-light reveal-anim reveal-right" style="transition-delay: 250ms;">
                         As an Information Technology graduate, I bridge the gap between creative design and robust technical execution. I specialize in system manual testing and building responsive web applications using modern development tools. Every project is backed by structured test plans and meticulous attention to detail to ensure seamless performance and reliability.
                     </p>
-                    <div class="flex justify-center space-x-4">
+                    <div class="flex justify-center space-x-4 reveal-anim reveal-bottom" style="transition-delay: 350ms;">
                         <a href="https://www.linkedin.com/in/ralph-jayco-urrutia-855170259/" target="_blank" rel="noopener noreferrer" title="Ralph Jayco Urrutia" class="social-icon-btn w-12 h-12 bg-[#F7F5F0] border border-[#6B4F33] rounded-full flex items-center justify-center transition-colors hover:bg-[#EBF3F9]" aria-label="LinkedIn">
                             <i class="fa-brands fa-linkedin-in text-[#3D2817] text-lg"></i>
                         </a>
@@ -315,16 +346,16 @@
     </section>
 
     <!-- SERVICES SECTION -->
-    <section id="services" class="py-28 px-8 md:px-20 bg-[#FDFBF7] border-t border-[#E4EDF4] transition-colors duration-400">
+    <section id="services" class="py-28 px-8 md:px-20 bg-[#FDFBF7] border-t border-[#E4EDF4] transition-colors duration-400 overflow-hidden">
         <div class="max-w-6xl mx-auto">
-            <div class="mb-12 reveal-up">
+            <div class="mb-12 reveal-anim reveal-top">
                 <span id="servicesSub" class="text-[#D97706] text-xs md:text-sm font-bold tracking-widest uppercase block mb-3">SERVICES</span>
                 <h2 id="servicesHeading" class="text-3xl md:text-4xl font-bold text-[#3D2817] tracking-tight">
                     Focused on building modern websites and user-centered interfaces.
                 </h2>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="service-card bg-[#EBF3F9] border border-[#6B4F33] rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between reveal-up transition-colors duration-400">
+                <div class="service-card bg-[#EBF3F9] border border-[#6B4F33] rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between reveal-anim reveal-left transition-colors duration-400">
                     <div class="w-full h-56 md:h-64 bg-[#E4EDF4] overflow-hidden relative">
                         <!-- Naka-set na agad sa Light mode image pag-start -->
                         <img id="serviceImg1" src="images/W. WEB DEVELOPMENT.png" alt="Web Development" class="w-full h-full object-cover">
@@ -336,7 +367,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="service-card bg-[#EBF3F9] border border-[#6B4F33] rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between reveal-up transition-colors duration-400" style="transition-delay: 200ms;">
+                <div class="service-card bg-[#EBF3F9] border border-[#6B4F33] rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between reveal-anim reveal-right transition-colors duration-400" style="transition-delay: 200ms;">
                     <div class="w-full h-56 md:h-64 bg-[#E4EDF4] overflow-hidden relative">
                         <!-- Naka-set na agad sa Light mode image pag-start -->
                         <img id="serviceImg2" src="images/W. MANUAL TESTING.png" alt="MANUAL TESTER" class="w-full h-full object-cover">
@@ -353,9 +384,9 @@
     </section>
 
     <!-- PERSONAL PROJECTS SECTION -->
-    <section id="projects" class="py-28 px-8 md:px-20 bg-[#FDFBF7] border-t border-[#E4EDF4] transition-colors duration-400">
+    <section id="projects" class="py-28 px-8 md:px-20 bg-[#FDFBF7] border-t border-[#E4EDF4] transition-colors duration-400 overflow-hidden">
         <div class="max-w-6xl mx-auto">
-            <div class="mb-12 reveal-up">
+            <div class="mb-12 reveal-anim reveal-top">
                 <span id="projectsSub" class="text-[#D97706] text-xs md:text-sm font-bold tracking-widest uppercase block mb-3">PERSONAL PROJECTS</span>
                 <h2 id="projectsHeading" class="text-3xl md:text-4xl font-bold text-[#3D2817] tracking-tight">
                     Selected work that highlights both visual quality and technical execution.
@@ -363,7 +394,7 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                <div id="projectMainBox" class="lg:col-span-2 bg-[#EBF3F9] border border-[#6B4F33] rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[480px] md:h-[540px] relative reveal-up transition-colors duration-400">
+                <div id="projectMainBox" class="lg:col-span-2 bg-[#EBF3F9] border border-[#6B4F33] rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[480px] md:h-[540px] relative reveal-anim reveal-left transition-colors duration-400">
                     <div id="projectBadgeBg" class="absolute top-6 left-6 z-20 bg-[#FDFBF7]/85 backdrop-blur-md px-4 py-2 rounded-xl border border-[#6B4F33] transition-colors duration-400">
                         <span id="active-project-tag" class="text-xs font-bold text-[#3D2817] tracking-wider uppercase"></span>
                     </div>
@@ -392,8 +423,8 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col space-y-4 reveal-up" id="rotating-thumbnails" style="transition-delay: 200ms;">
-                    <div onclick="switchProject(1)" id="thumb-1" class="project-thumb cursor-pointer bg-[#EBF3F9] border-2 border-[#D97706] rounded-2xl p-4 flex items-center space-x-4 transition-all shadow-lg opacity-100">
+                <div class="flex flex-col space-y-4" id="rotating-thumbnails">
+                    <div onclick="switchProject(1)" id="thumb-1" class="project-thumb cursor-pointer bg-[#EBF3F9] border-2 border-[#D97706] rounded-2xl p-4 flex items-center space-x-4 transition-all shadow-lg opacity-100 reveal-anim-slide reveal-right" style="transition-delay: 200ms;">
                         <div class="w-16 h-16 bg-[#E4EDF4] rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center border border-[#6B4F33]">
                             <img src="images/school logo.jpg" alt="Thumbnail" class="w-full h-full object-cover">
                         </div>
@@ -403,7 +434,7 @@
                         </div>
                     </div>
 
-                    <div onclick="switchProject(2)" id="thumb-2" class="project-thumb cursor-pointer bg-[#EBF3F9] border-2 border-[#6B4F33] rounded-2xl p-4 flex items-center space-x-4 transition-all shadow-lg opacity-40 hover:opacity-75">
+                    <div onclick="switchProject(2)" id="thumb-2" class="project-thumb cursor-pointer bg-[#EBF3F9] border-2 border-[#6B4F33] rounded-2xl p-4 flex items-center space-x-4 transition-all shadow-lg opacity-40 hover:opacity-75 reveal-anim-slide reveal-right" style="transition-delay: 350ms;">
                         <div class="w-16 h-16 bg-[#E4EDF4] rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center border border-[#6B4F33]">
                             <img src="DENTAL CLINIC WEBSITE/IMAGES/solsmile logo.jpg" alt="Thumbnail" class="w-full h-full object-cover">
                         </div>
@@ -413,7 +444,7 @@
                         </div>
                     </div>
 
-                    <div onclick="switchProject(3)" id="thumb-3" class="project-thumb cursor-pointer bg-[#EBF3F9] border-2 border-[#6B4F33] rounded-2xl p-4 flex items-center space-x-4 transition-all shadow-lg opacity-40 hover:opacity-75">
+                    <div onclick="switchProject(3)" id="thumb-3" class="project-thumb cursor-pointer bg-[#EBF3F9] border-2 border-[#6B4F33] rounded-2xl p-4 flex items-center space-x-4 transition-all shadow-lg opacity-40 hover:opacity-75 reveal-anim-slide reveal-right" style="transition-delay: 500ms;">
                         <div class="w-16 h-16 bg-[#E4EDF4] rounded-xl overflow-hidden flex-shrink-0 flex items-center justify-center border border-[#6B4F33]">
                             <img src="images/project-four-thumb.jpg" alt="Thumbnail" class="w-full h-full object-cover">
                         </div>
@@ -429,9 +460,9 @@
     </section>
 
     <!-- CERTIFICATES SECTION -->
-    <section id="certificates" class="py-28 px-8 md:px-20 bg-[#FDFBF7] border-t border-[#E4EDF4] transition-colors duration-400">
+    <section id="certificates" class="py-28 px-8 md:px-20 bg-[#FDFBF7] border-t border-[#E4EDF4] transition-colors duration-400 overflow-hidden">
         <div class="max-w-7xl mx-auto text-center">
-            <div class="reveal-up">
+            <div class="reveal-anim reveal-top reveal-gentle">
                 <h2 id="certHeading" class="text-3xl md:text-5xl font-extrabold tracking-wider text-[#3D2817] mb-4 uppercase">CERTIFICATE</h2>
                 <p id="certSub" class="text-[#6B4F33] text-sm md:text-base font-light tracking-wide mb-16 max-w-2xl mx-auto">
                     A collection of technical seminars, academic milestones, and professional certificates achieved throughout my Information Technology journey.
@@ -439,7 +470,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-                <div class="cert-card p-6 bg-[#EBF3F9] border border-[#6B4F33] rounded-3xl shadow-2xl flex flex-col justify-between group hover:border-[#D97706] transition duration-300 reveal-up">
+                <div class="cert-card p-6 bg-[#EBF3F9] border border-[#6B4F33] rounded-3xl shadow-2xl flex flex-col justify-between group hover:border-[#D97706] transition duration-300 reveal-anim reveal-bottom reveal-gentle">
                     <div class="w-full h-80 md:h-96 bg-[#E4EDF4] rounded-2xl overflow-hidden mb-6 flex items-center justify-center border border-[#6B4F33] p-3">
                         <img src="images/cert1.png" alt="Certificate 1" class="w-full h-full object-contain group-hover:scale-105 transition duration-500">
                     </div>
@@ -449,7 +480,7 @@
                     </div>
                 </div>
 
-                <div class="cert-card p-6 bg-[#EBF3F9] border border-[#6B4F33] rounded-3xl shadow-2xl flex flex-col justify-between group hover:border-[#D97706] transition duration-300 reveal-up" style="transition-delay: 150ms;">
+                <div class="cert-card p-6 bg-[#EBF3F9] border border-[#6B4F33] rounded-3xl shadow-2xl flex flex-col justify-between group hover:border-[#D97706] transition duration-300 reveal-anim reveal-bottom reveal-gentle" style="transition-delay: 250ms;">
                     <div class="w-full h-80 md:h-96 bg-[#E4EDF4] rounded-2xl overflow-hidden mb-6 flex items-center justify-center border border-[#6B4F33] p-3">
                         <img src="images/cert2.png" alt="Certificate 2" class="w-full h-full object-contain group-hover:scale-105 transition duration-500">
                     </div>
@@ -459,7 +490,7 @@
                     </div>
                 </div>
 
-                <div class="cert-card p-6 bg-[#EBF3F9] border border-[#6B4F33] rounded-3xl shadow-2xl flex flex-col justify-between group hover:border-[#D97706] transition duration-300 reveal-up" style="transition-delay: 300ms;">
+                <div class="cert-card p-6 bg-[#EBF3F9] border border-[#6B4F33] rounded-3xl shadow-2xl flex flex-col justify-between group hover:border-[#D97706] transition duration-300 reveal-anim reveal-bottom reveal-gentle" style="transition-delay: 500ms;">
                     <div class="w-full h-80 md:h-96 bg-[#E4EDF4] rounded-2xl overflow-hidden mb-6 flex items-center justify-center border border-[#6B4F33] p-3">
                         <img src="images/cert3.png" alt="Certificate 3" class="w-full h-full object-contain group-hover:scale-105 transition duration-500">
                     </div>
@@ -474,20 +505,39 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Intersection Observer para sa Down-to-Up Fade Animations
+        // Intersection Observer para sa Off-Screen Directional Entrance Animations
         document.addEventListener("DOMContentLoaded", function () {
+            // NOTE: reveal elements start life shifted far off-screen via CSS transform
+            // (reveal-top/bottom/left/right), and their containing sections use overflow:hidden
+            // so those huge offsets don't create stray scrollbars. That combination means the
+            // transformed element's own on-screen rect never overlaps the section's clipping
+            // box, so IntersectionObserver would never see it "enter" - no rootMargin trick can
+            // fix that, since overflow:hidden clips the intersection candidate area itself.
+            // Fix: observe each reveal element's stable, UN-transformed parent container instead
+            // (it never moves, so it enters/exits the viewport exactly like a normal element),
+            // then toggle 'revealed' on its reveal-anim / reveal-anim-slide children.
             const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('revealed');
-                    } else {
-                        entry.target.classList.remove('revealed');
-                    }
+                    const targets = entry.target.querySelectorAll('.reveal-anim, .reveal-anim-slide');
+                    targets.forEach(el => {
+                        if (entry.isIntersecting) {
+                            el.classList.add('revealed');
+                        } else {
+                            el.classList.remove('revealed');
+                        }
+                    });
                 });
             }, observerOptions);
 
-            document.querySelectorAll('.reveal-up').forEach(el => observer.observe(el));
+            const observedParents = new Set();
+            document.querySelectorAll('.reveal-anim, .reveal-anim-slide').forEach(el => {
+                const parent = el.parentElement;
+                if (parent && !observedParents.has(parent)) {
+                    observedParents.add(parent);
+                    observer.observe(parent);
+                }
+            });
 
             const sections = document.querySelectorAll('div[id], section[id]');
             let isManualScrolling = false;

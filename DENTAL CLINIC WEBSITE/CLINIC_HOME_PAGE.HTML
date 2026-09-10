@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tooth Fairy Dental Clinic</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body {
+            background-color: #0d1b2a;
+            color: #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        /* HERO SPACER PARA SA SCROLLING */
+        .hero-spacer {
+            position: relative;
+            width: 100%;
+        }
+
+        /* HERO SECTION NA MAGIGING FIXED HABANG NAGSE-SCROLL */
+        .hero-container-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        /* VIDEO BACKGROUND NA MAY DARK OVERLAY */
+        .video-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(13, 27, 42, 0.85) 0%, rgba(27, 38, 59, 0.75) 100%);
+            z-index: -1;
+        }
+
+        /* ENTRANCE ANIMATIONS */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HEADER / NAVBAR */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: rgba(13, 27, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeInDown 0.8s ease-out;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .logo-area {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.1;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #38bdf8;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-sub {
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #94a3b8;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 35px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #e2e8f0;
+            font-weight: 600;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a.active, nav ul li a:hover {
+            color: #38bdf8;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .phone-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .phone-icon {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #38bdf8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #38bdf8;
+            font-size: 18px;
+        }
+
+        .phone-info .label {
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        .phone-info .number {
+            font-size: 15px;
+            font-weight: bold;
+            color: #f8fafc;
+        }
+
+        .btn-book {
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(2, 132, 199, 0.4);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-book:hover {
+            background-color: #0369a1;
+            transform: translateY(-2px);
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 50px;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 750px;
+            animation: fadeInLeft 1s ease-out;
+            background: transparent;
+            padding: 0;
+        }
+
+        .hero-content h1 {
+            font-size: 46px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content h1 span {
+            color: #38bdf8;
+        }
+
+        .hero-content p {
+            font-size: 16px;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-buttons {
+            display: flex;
+            margin-bottom: 25px;
+            width: 100%;
+            max-width: 635px;
+        }
+
+        .btn-cyan {
+            background-color: #0284c7;
+            color: white;
+            padding: 14px 26px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-cyan:hover {
+            background-color: #0369a1;
+            transform: translateY(-2px);
+        }
+
+        /* FEATURES BADGES */
+        .features-badges {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            max-width: 635px;
+        }
+
+        .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(15, 23, 42, 0.75);
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            flex: 1;
+        }
+
+        .badge-icon {
+            font-size: 20px;
+            color: #38bdf8;
+            min-width: 25px;
+        }
+
+        .badge-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: #e2e8f0;
+            line-height: 1.3;
+        }
+
+        /* SERVICES CARDS SECTION (WALA NA ANG MALAKING BACKGROUND CONTAINER) */
+        .services-cards-container {
+            position: relative;
+            z-index: 20;
+            background-color: transparent;
+            max-width: 1300px;
+            width: 95%;
+            margin: 0 auto;
+            padding: 60px 10px 40px 10px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            background: transparent;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+        }
+
+        .service-card {
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: rgba(30, 41, 59, 0.85);
+        }
+
+        .service-icon-box {
+            font-size: 28px;
+            background: rgba(2, 132, 199, 0.2);
+            color: #38bdf8;
+            padding: 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 55px;
+            min-height: 55px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        .service-text h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 6px;
+        }
+
+        .service-text p {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+
+        /* CAROUSEL INDICATOR BAR */
+        .slider-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .slider-line {
+            width: 250px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .slider-line::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            background: #38bdf8;
+            border-radius: 2px;
+        }
+
+        .slider-diamond {
+            width: 10px;
+            height: 10px;
+            background: #38bdf8;
+            transform: rotate(45deg);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 768px) {
+            header {
+                flex-wrap: wrap;
+                gap: 12px;
+                padding: 12px 15px !important;
+            }
+
+            nav ul {
+                gap: 12px !important;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-section {
+                flex-direction: column;
+                padding: 30px 15px !important;
+                text-align: center;
+            }
+
+            .hero-content {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .hero-content h1 {
+                font-size: 1.8rem !important;
+            }
+
+            .hero-content p {
+                font-size: 0.95rem !important;
+            }
+
+            .hero-buttons,
+            .features-badges {
+                max-width: 100% !important;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 12px !important;
+            }
+
+            .badge-item {
+                flex: 1 1 100%;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-book, .btn-cyan {
+                width: 100% !important;
+                padding: 12px 15px !important;
+            }
+        }
+    </style>
+    <style>
+        .menu-toggle { display: none; }
+        @media (max-width: 600px) {
+            header { display: grid !important; grid-template-columns: 1fr auto; align-items: center; gap: 8px !important; padding: 8px 10px !important; }
+            .logo-text { font-size: 1rem !important; }
+            .logo-sub { font-size: 0.5rem; }
+            .menu-toggle { display: block; grid-column: 2; grid-row: 1; border: 1px solid rgba(56, 189, 248, 0.45); background: rgba(15, 23, 42, 0.9); color: #f8fafc; border-radius: 5px; font-size: 1.1rem; line-height: 1; padding: 7px 8px; }
+            nav { display: none; grid-column: 1 / -1; width: 100%; }
+            header.menu-open nav { display: block; }
+            nav ul { flex-direction: column; gap: 0 !important; align-items: stretch; padding: 4px 0; }
+            nav ul li a { display: block; padding: 8px 10px; text-align: center; font-size: 0.75rem; border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+            .header-right { display: none; grid-column: 1 / -1; width: 100% !important; gap: 6px; }
+            header.menu-open .header-right { display: flex; }
+            .phone-box { justify-content: center; }
+            .phone-icon { width: 28px; height: 28px; font-size: 0.75rem; }
+            .phone-info .label { font-size: 0.5rem; }
+            .phone-info .number { font-size: 0.65rem; }
+            .btn-book { width: 100% !important; justify-content: center; padding: 8px 10px !important; font-size: 0.7rem; }
+            .hero-section { padding: 24px 12px !important; }
+            .hero-content h1 { font-size: 1.45rem !important; }
+            .hero-content p { font-size: 0.78rem !important; }
+            .btn-cyan { padding: 11px 14px; font-size: 0.85rem; }
+            .features-badges { gap: 8px !important; }
+            .badge-item { padding: 9px 10px; }
+            .badge-text { font-size: 0.65rem; }
+            .services-cards-container { width: 100%; padding: 28px 10px 24px; }
+            .cards-grid { gap: 10px; }
+            .service-card { padding: 14px 12px; gap: 12px; border-radius: 11px; }
+            .service-icon-box { min-width: 42px; min-height: 42px; padding: 8px; font-size: 1.35rem; border-radius: 9px; }
+            .service-text h3 { font-size: 0.85rem; }
+            .service-text p { font-size: 0.68rem; }
+            .slider-line { width: 90px; }
+        }
+    </style>
+    <style>
+        @media (max-width: 600px) {
+            .hero-section { padding-top: 92px !important; }
+        }
+    </style>
+    <style>
+        /* Keep the mobile navigation consistent with ABOUT_US.HTML. */
+        @media (max-width: 600px) {
+            header { position: fixed !important; top: 0; left: 0; right: 0; display: grid !important; grid-template-columns: 1fr auto; align-items: center; gap: 10px !important; padding: 10px 12px !important; }
+            .logo-text { font-size: 1.15rem !important; }
+            .logo-sub { font-size: 0.55rem !important; }
+            .menu-toggle { display: block; grid-column: 2; grid-row: 1; border: 1px solid rgba(56, 189, 248, 0.45); background: rgba(15, 23, 42, 0.9); color: #f8fafc; border-radius: 6px; font-size: 1.25rem; line-height: 1; padding: 8px 10px; }
+            nav { display: none; grid-column: 1 / -1; width: 100%; }
+            header.menu-open nav { display: block; }
+            nav ul { flex-direction: column; gap: 0 !important; align-items: stretch; padding: 6px 0; }
+            nav ul li a { display: block; padding: 10px 12px; text-align: center; font-size: 0.85rem; border-bottom: 1px solid rgba(148, 163, 184, 0.15); }
+            .header-right { display: none; grid-column: 1 / -1; width: 100% !important; gap: 8px; }
+            header.menu-open .header-right { display: flex; }
+            .phone-box { justify-content: center; }
+            .phone-icon { width: 32px; height: 32px; font-size: 0.9rem; }
+            .phone-info .label { font-size: 0.6rem; }
+            .phone-info .number { font-size: 0.75rem; }
+            .btn-book { width: 100% !important; justify-content: center; padding: 10px 12px !important; font-size: 0.8rem; }
+        }
+    </style>
+    <style>
+        @media (max-width: 600px) {
+            header { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; display: grid !important; grid-template-columns: 1fr auto; align-items: center !important; gap: 10px !important; padding: 10px 12px !important; }
+            .header-right { display: none; grid-column: 1 / -1; width: 100% !important; flex-direction: column !important; align-items: stretch !important; justify-content: flex-start !important; gap: 8px !important; }
+            header.menu-open .header-right { display: flex !important; }
+            .phone-box { width: 100%; justify-content: center !important; }
+            .btn-book { width: 100% !important; justify-content: center !important; padding: 10px 12px !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO SPACER PARA SA SCROLLING -->
+    <div class="hero-spacer">
+        <div class="hero-container-fixed">
+            <video class="video-bg" src="video.mp4" muted playsinline preload="auto"></video>
+            <div class="video-overlay"></div>
+
+            <header>
+                <div class="logo-area">
+                    <span class="logo-text">Tooth Fairy</span>
+                    <span class="logo-sub">DENTAL CLINIC</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="CLINIC_HOME_PAGE.HTML" class="active">HOME</a></li>
+                        <li><a href="ABOUT_US.HTML">ABOUT US</a></li>
+                        <li><a href="SERVICES.HTML">SERVICES</a></li>
+                        <li><a href="CONTACT.HTML">CONTACT</a></li>
+                    </ul>
+                </nav>
+                <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">☰</button>
+                <div class="header-right">
+                    <div class="phone-box">
+                        <div class="phone-icon">📞</div>
+                        <div class="phone-info">
+                            <div class="label">Phone Number</div>
+                            <div class="number">0912-3456-789</div>
+                        </div>
+                    </div>
+                    <a href="BOOK_APPOINMENT.HTML" style="text-decoration: none;">
+                        <button class="btn-book">
+                            <span>📅</span> Book Appointment
+                        </button>
+                    </a>
+                </div>
+            </header>
+
+
+<section class="hero-section">
+        <div class="hero-content">
+            <h1>Your trusted partner for a brighter<br><span>healthier smile.</span></h1>
+            <p>Experience modern dental care with a gentle touch, advanced equipment, and a welcoming environment for your family's oral health.</p>
+            
+            <div class="hero-buttons">
+                <a href="BOOK_APPOINMENT.HTML" style="text-decoration: none; width: 100%;">
+                    <button class="btn-cyan">Book Appointment</button>
+                </a>
+            </div>
+
+            <div class="features-badges">
+                <div class="badge-item">
+                    <div class="badge-icon">👤</div>
+                    <div class="badge-text">Trusted by 2,500+<br>Patients</div>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-icon">⭐</div>
+                    <div class="badge-text">Top-Rated Patient<br>Satisfaction</div>
+                </div>
+                <div class="badge-item">
+                    <div class="badge-icon">💳</div>
+                    <div class="badge-text">Flexible Payment &<br>HMO Accepted</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-cards-container">
+        <div class="cards-grid">
+            <div class="service-card">
+                <div class="service-icon-box">🦷</div>
+                <div class="service-text">
+                    <h3>Maintenance Checkup</h3>
+                    <p>Regular checkups and thorough professional cleaning to maintain your optimal oral health.</p>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon-box">✨</div>
+                <div class="service-text">
+                    <h3>Smile Enhancement</h3>
+                    <p>Boost your confidence with advanced teeth whitening, veneers, and custom aesthetic treatments.</p>
+                </div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon-box">➕</div>
+                <div class="service-text">
+                    <h3>Emergency Care</h3>
+                    <p>Same-day assistance and immediate attention whenever unexpected dental issues arise.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slider-indicator">
+            <div class="slider-line"></div>
+            <div class="slider-diamond"></div>
+            <div class="slider-line" style="transform: scaleX(-1);"></div>
+        </div>
+    </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const heroSpacer = document.querySelector(".hero-spacer");
+            const heroContainerFixed = document.querySelector(".hero-container-fixed");
+            const video = document.querySelector(".video-bg");
+
+            video.pause();
+
+            video.addEventListener("loadedmetadata", function () {
+                const scrollHeightMultiplier = 3.5; 
+                const spacerHeight = window.innerHeight * scrollHeightMultiplier;
+                heroSpacer.style.height = `${spacerHeight}px`;
+
+                let targetTime = 0;
+                let currentTime = 0;
+                const smoothing = 0.1; 
+                let ticking = false;
+                let isSeeking = false;
+
+                video.addEventListener("seeking", function () { isSeeking = true; });
+                video.addEventListener("seeked", function () { isSeeking = false; });
+
+                function updateScrollState() {
+                    const scrollTop = window.pageYOffset;
+                    const maxScroll = spacerHeight - window.innerHeight;
+
+                    let scrollFraction = scrollTop / maxScroll;
+                    scrollFraction = Math.max(0, Math.min(1, scrollFraction));
+
+                    targetTime = scrollFraction * video.duration;
+
+                    if (scrollTop >= maxScroll) {
+                        heroContainerFixed.style.position = "absolute";
+                        heroContainerFixed.style.top = `${maxScroll}px`;
+                    } else {
+                        heroContainerFixed.style.position = "fixed";
+                        heroContainerFixed.style.top = "0";
+                    }
+                }
+
+                function renderLoop() {
+                    currentTime += (targetTime - currentTime) * smoothing;
+
+                    if (!isSeeking && Math.abs(targetTime - currentTime) > 0.01) {
+                        video.currentTime = currentTime;
+                    }
+
+                    requestAnimationFrame(renderLoop);
+                }
+
+                window.addEventListener("scroll", function () {
+                    if (!ticking) {
+                        requestAnimationFrame(function () {
+                            updateScrollState();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                }, { passive: true });
+
+                updateScrollState();
+                requestAnimationFrame(renderLoop);
+            });
+        });
+    </script>
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function () {
+            const header = this.closest('header');
+            const isOpen = header.classList.toggle('menu-open');
+            this.setAttribute('aria-expanded', isOpen);
+            this.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+        });
+    </script>
+</body>
+</html>
